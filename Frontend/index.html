@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grievance Redressal Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Public Grievance Portal</h1>
+    </header>
+
+    <main>
+        <!-- Section 1: Initial Choice -->
+        <section id="initial-choice-section">
+            <h2>Lodge a New Grievance</h2>
+            <div class="choice-container">
+                <button id="central-btn" class="choice-btn">Central Government</button>
+                <button id="state-btn" class="choice-btn">State Government</button>
+            </div>
+            <hr>
+            <h2>Track Complaint Status</h2>
+            <form id="track-form">
+                <input type="text" id="grievance-id-input" placeholder="Enter Grievance ID" required>
+                <button type="submit">Track Status</button>
+            </form>
+            <div id="tracking-result"></div>
+        </section>
+
+        <!-- Section 2: Department/State Lists -->
+        <section id="selection-section" class="hidden">
+            <button id="back-to-main-btn" class="back-btn">&larr; Back</button>
+            <h2 id="selection-title"></h2>
+            <input type="search" id="search-bar" placeholder="Search for a State or UT...">
+            <div id="selection-list"></div>
+        </section>
+        
+        <!-- Section 3: The Complaint Form -->
+        <section id="complaint-form-section" class="hidden">
+            <button id="back-to-selection-btn" class="back-btn">&larr; Back</button>
+            <h2>Grievance Details</h2>
+            <form id="complaint-form">
+                <!-- MOVED TO THE TOP -->
+                <div id="sub-category-container" class="hidden">
+                    <label for="sub-category-select">Select a Grievance Sub-Category:</label>
+                    <select id="sub-category-select" required></select>
+                </div>
+
+                <input type="text" id="user-name" placeholder="Your Name" required>
+                <input type="tel" id="user-phone" placeholder="Mobile Number (10 digits)" required>
+                <input type="email" id="user-email" placeholder="Email ID" required>
+                <input type="text" id="user-address" placeholder="Full Address" required>
+                <textarea id="description" rows="6" placeholder="Describe your grievance in detail" required></textarea>
+                
+                <label for="document-upload">Upload Supporting Document (Optional)</label>
+                <input type="file" id="document-upload">
+
+                <button type="submit">Submit Grievance</button>
+            </form>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
