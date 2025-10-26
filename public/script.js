@@ -143,7 +143,8 @@ document.addEventListener('DOMContentLoaded', () => {
             subCategory: subCategorySelect.value
         };
         try {
-            const response = await fetch('http://127.0.0.1:5000/api/complaints', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData) });
+            // SUBMISSION FIX: Use relative Vercel path
+            const response = await fetch('/api/complaints', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData) });
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             const result = await response.json();
             alert(`Success! Your grievance has been submitted.\nYour Grievance ID is: ${result.grievanceId}`);
@@ -153,14 +154,30 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) { console.error("Submission Error:", error); alert("There was an error submitting your grievance. Please try again."); }
     });
 
-    const trackForm = document.getElementById('track-form'); const grievanceIdInput = document.getElementById('grievance-id-input'); const trackingResultDiv = document.getElementById('tracking-result');
+    const trackForm = document.getElementById('track-form'); 
+    const grievanceIdInput = document.getElementById('grievance-id-input'); 
+    const trackingResultDiv = document.getElementById('tracking-result');
+    
     trackForm.addEventListener('submit', async (e) => {
-        e.preventDefault(); const grievanceId = grievanceIdInput.value; if (!grievanceId) return;
+        e.preventDefault(); 
+        const grievanceId = grievanceIdInput.value; 
+        if (!grievanceId) return;
+        
         try {
-            const response = await fetch(`http://127.0.0.1:5000/api/complaints/track/${grievanceId}`); const result = await response.json();
-            if (response.ok) { trackingResultDiv.innerHTML = `<p><strong>Status for ID ${result.grievanceId}:</strong></p><p><strong>Department:</strong> ${result.department}<br><strong>Sub-Category:</strong> ${result.subCategory || 'N/A'}<br><strong>Status:</strong> <span style="font-weight: bold; color: #ff8c00;">${result.status}</span></p>`; }
-            else { trackingResultDiv.innerHTML = `<p style="color: red;">Error: ${result.error}</p>`; }
-        } catch (error) { console.error("Tracking Error:", error); trackingResultDiv.innerHTML = `<p style="color: red;">Could not connect to the server to track status.</p>`; }
+            // TRACKING FIX: Use GET method and the correct Vercel tracking URL
+            const response = await fetch(`/api/complaints/track/${grievanceId}`); 
+            const result = await response.json(); // Must parse JSON result
+
+            if (response.ok) { 
+                trackingResultDiv.innerHTML = `<p><strong>Status for ID ${result.grievanceId}:</strong></p><p><strong>Department:</strong> ${result.department}<br><strong>Sub-Category:</strong> ${result.subCategory || 'N/A'}<br><strong>Status:</strong> <span style="font-weight: bold; color: #ff8c00;">${result.status}</span></p>`; 
+            }
+            else { 
+                trackingResultDiv.innerHTML = `<p style="color: red;">Error: ${result.error}</p>`; 
+            }
+        } catch (error) { 
+            console.error("Tracking Error:", error); 
+            trackingResultDiv.innerHTML = `<p style="color: red;">Could not connect to the server to track status.</p>`; 
+        }
     });
     
     showSection(initialChoiceSection);
